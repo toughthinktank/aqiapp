@@ -4,5 +4,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 #### npm install -g @angular/cli
 #### npm i
-#### ng add @anngular/material
+#### ng add @angular/material
 #### ng serve --open
