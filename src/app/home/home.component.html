@@ -1,0 +1,41 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z4">
+  <ng-container matColumnDef="city">
+    <th mat-header-cell style="padding-left: 24px; padding-right: 24px" *matHeaderCellDef> City </th>
+    <td mat-cell style="padding-left: 24px; padding-right: 24px" *matCellDef="let element"> {{element.city}} </td>
+  </ng-container>
+  <ng-container matColumnDef="aqi">
+    <th mat-header-cell style="padding-left: 24px; padding-right: 24px" *matHeaderCellDef> AQI </th>
+    <td mat-cell style="padding-left: 24px; padding-right: 24px; background-color: rgb(75, 75, 75)" *matCellDef="let element"
+      [ngClass]= "{
+        'good' : element.aqi <= 50,
+        'satisfactory' : element.aqi <= 100 && element.aqi > 50,
+        'moderate' : element.aqi <= 200 && element.aqi > 100,
+        'poor' : element.aqi <= 300 && element.aqi > 200,
+        'veryPoor' : element.aqi <=400 && element.aqi > 300,
+        'severe' : element.aqi > 400
+      }"
+    > {{element.aqi}} </td>
+  </ng-container>
+  <ng-container matColumnDef="lastUpdated">
+    <th mat-header-cell style="padding-left: 24px; padding-right: 24px" *matHeaderCellDef> Last Updated At </th>
+    <td mat-cell style="padding-left: 24px; padding-right: 24px" *matCellDef="let element"> {{element.lastUpdated | amTimeAgo}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<div id="chart">
+  <apx-chart
+    *ngIf="chartOptions.series && chartOptions.chart && chartOptions.xaxis && chartOptions.stroke && chartOptions.colors && chartOptions.dataLabels && chartOptions.legend && chartOptions.markers && chartOptions.grid && chartOptions.yaxis && chartOptions.title"
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [stroke]="chartOptions.stroke"
+    [colors]="chartOptions.colors"
+    [dataLabels]="chartOptions.dataLabels"
+    [legend]="chartOptions.legend"
+    [markers]="chartOptions.markers"
+    [grid]="chartOptions.grid"
+    [yaxis]="chartOptions.yaxis"
+    [title]="chartOptions.title"
+  ></apx-chart>
+</div>
