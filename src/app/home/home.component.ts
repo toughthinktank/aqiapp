@@ -62,6 +62,8 @@ export type ChartOptions = {
 export class HomeComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
+  public selected!: CityData;
+  public i = 0;
   dataSource = new MatTableDataSource<CityData>();
   displayedColumns = ['city', 'aqi', 'lastUpdated'];
   public cityData!: CityData[];
@@ -89,10 +91,6 @@ export class HomeComponent implements OnInit {
       stroke : {
         curve: "smooth"
       },
-      title : {
-        text: "Citywise AQI Data",
-        align: "left"
-      },
       grid : {
         borderColor: "#e7e7e7",
         row: {
@@ -102,13 +100,6 @@ export class HomeComponent implements OnInit {
       },
       markers : {
         size: 1
-      },
-      yaxis : {
-        title: {
-          text: "AQI"
-        },
-        min: 5,
-        max: 400
       },
       legend : {
         position: "top",
@@ -155,24 +146,35 @@ export class HomeComponent implements OnInit {
         }
         this.cityData.forEach((data) => data.aqi = (Math.round(Number(data.aqi)*100)/100).toString());
         this.dataSource.data = this.cityData;
-        this.cityData.forEach((cd) => {
-          let seriesObj!: chartData;
-          seriesObj = {
-            'name' : cd.city,
-            'data' : [0]
-          }
-          if (cd.history.length > 1000) cd.history = cd.history.slice(-1000);
-          cd.history.map(x => x.aqi).forEach(aqi => seriesObj.data.push(Math.round(Number(aqi)*100)/100));
-          cd.history.map(x => x.time).forEach(t => this.chartOptions.xaxis?.categories.push(t.getHours()+':'+t.getMinutes()+':'+t.getSeconds()));
-          seriesObj.data = seriesObj.data.slice(1);
-          this.chartOptions.series?.push(seriesObj);
-          this.chartOptions.colors?.push('#' + (Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6));
-        });
+        this.selected = this.cityData[this.i%this.cityData.length];
+        let seriesObj!: chartData;
+        seriesObj = {
+          'name' : this.selected.city,
+          'data' : [0]
+        }
+        if (this.selected.history.length > 30) this.selected.history = this.selected.history.slice(-30);
+        this.selected.history.map(x => x.aqi).forEach(aqi => seriesObj.data.push(Math.round(Number(aqi)*100)/100));
+        this.selected.history.map(x => x.time).forEach(t => this.chartOptions.xaxis?.categories.push(t.getHours()+':'+t.getMinutes()+':'+t.getSeconds()));
+        seriesObj.data = seriesObj.data.slice(1);
+        this.chartOptions.series = [seriesObj];
+        this.chartOptions.colors = ['#000'];
+        this.chartOptions.title = {
+          text: this.selected.city,
+          align: "left"
+        };
+        let that = this;
+        this.chartOptions.yaxis =  {
+          title: {
+            text: "AQI"
+          },
+          min: Math.floor(Number(that.selected.history[0].aqi)) - 20,
+          max: Math.floor(Number(that.selected.history[0].aqi)) + 20,
+        }
+        this.i += 1;
       },
       err => console.log('err', err),
       () => console.log('complete')
     );
   }
-
 
 }
