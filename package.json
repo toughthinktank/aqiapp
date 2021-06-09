@@ -1,17 +1,26 @@
 {
   "name": "aqiapp",
   "version": "0.0.0",
+  "start": "node server.js",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "heroku-postbuild": "ng build --prod"
+  },
+  "engines": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "~12.0.2",
     "@angular/animations": "~12.0.2",
     "@angular/cdk": "^12.0.3",
+    "@angular/cli": "~12.0.2",
     "@angular/common": "~12.0.2",
     "@angular/compiler": "~12.0.2",
     "@angular/core": "~12.0.2",
@@ -21,11 +30,14 @@
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
     "apexcharts": "^3.26.3",
+    "express": "^4.17.1",
     "moment": "^2.29.1",
     "ng-apexcharts": "^1.5.10",
     "ngx-moment": "^5.0.0",
+    "path": "^0.12.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
+    "typescript": "~4.2.3",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -34,6 +46,7 @@
     "@angular/compiler-cli": "~12.0.2",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "enhanced-resolve": "^5.8.2",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
