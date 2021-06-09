@@ -6,3 +6,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 #### npm i
 #### ng add @angular/material
 #### ng serve --open
+#### Development time - 6 hours
