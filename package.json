@@ -1,11 +1,10 @@
 {
   "name": "aqiapp",
   "version": "0.0.0",
-  "start": "node server.js",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
