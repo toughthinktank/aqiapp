@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   dataSource = new MatTableDataSource<CityData>();
   displayedColumns = ['city', 'aqi', 'lastUpdated'];
   public cityData!: CityData[];
-  private subject = new WebSocketSubject('ws://city-ws.herokuapp.com/')
+  private subject = new WebSocketSubject('wss://city-ws.herokuapp.com/')
   constructor() {
     this.chartOptions = {
       chart : {
